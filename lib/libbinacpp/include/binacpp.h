@@ -7,6 +7,9 @@
 */
 
 
+#ifndef BINACPP_H
+#define BINACPP_H
+
 
 #include <string.h>
 #include <stdlib.h>
@@ -34,7 +37,12 @@ class BinaCPP {
 	static string api_key;
 	static string secret_key;
 
+
+	
+
 	public:
+
+		
 
 		static void curl_api( string &url, string &result_json );
 		static void curl_api_with_header( string &url, string &result_json , vector <string> &extra_http_header, string &post_data, string &action );
@@ -157,3 +165,4 @@ class BinaCPP {
 };
 
 
+#endif

@@ -23,11 +23,10 @@ libbinacpp_lib=${libbinacpp_dir}/lib
 
 %: %.cpp
 	@echo -n "\nMaking $@\n\n\n"
-	g++ -I$(libcurl_include) -I$(jsoncpp_include) -I$(libwebsockets_include) -I$(libbinacpp_include) \
+	g++ -I$(jsoncpp_include)  -I$(libbinacpp_include) \
 	$@.cpp \
-	-L$(libcurl_lib) \
-	-L$(libwebsockets_lib) \
 	-L$(libbinacpp_lib) \
+	-I/usr/local/opt/openssl/include -L/usr/local/opt/openssl/lib \
 	-lcurl -ljsoncpp  -lcrypto -lwebsockets -lbinacpp -o $@
 
 	cat run.template.sh  | sed s/%executable%/$@/ > $@.run.sh

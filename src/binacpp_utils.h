@@ -25,7 +25,7 @@ unsigned long get_current_ms_epoch();
 
 //--------------------
 template <class T>
-inline string to_string (const T& t)
+inline string to_string__ (const T& t)
 {
     stringstream ss;
     ss << t;
@@ -33,7 +33,7 @@ inline string to_string (const T& t)
 }
 
 
-static std::string to_string(double val)
+static std::string to_string__(double val)
 {
 	std::ostringstream out;
 	out.precision(8);

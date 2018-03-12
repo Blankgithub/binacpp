@@ -1,4 +1,6 @@
 
+libopenssl_dir=/usr/local/opt/openssl/lib
+libopenssl_include=/usr/local/opt/openssl/include
 
 libcurl_dir=../lib/libcurl-7.56.0
 libcurl_include=${libcurl_dir}/include
@@ -21,9 +23,7 @@ build_include=../lib/libbinacpp/include
 
 
 $(build_dir)/libbinacpp.so: $(objects)
-	g++ -I$(libcurl_include) -I$(jsoncpp_include) -I$(libwebsockets_include)  \
-	-L$(libcurl_lib) \
-	-L$(libwebsockets_lib) \
+	g++ -I$(jsoncpp_include) -I$(libopenssl_include) \
 	$(objects) \
 	-shared \
 	-lcurl -lcrypto -lwebsockets -fPIC -o $@
@@ -32,27 +32,25 @@ $(build_dir)/libbinacpp.so: $(objects)
 	cp *.h  $(build_include)
 
 
+$(build_dir)/binacpp.o: binacpp.cpp binacpp.h
+	g++ -I$(libopenssl_include) -I$(jsoncpp_include) -L../lib/libbinacpp/lib -ljsoncpp -c binacpp.cpp  -fPIC   -o $(build_dir)/binacpp.o
 
 
-$(build_dir)/binacpp.o: binacpp.cpp binacpp.h 
-	g++ -I$(libcurl_include) -I$(jsoncpp_include) -c binacpp.cpp  -fPIC   -o $(build_dir)/binacpp.o 
+$(build_dir)/binacpp_websocket.o: binacpp_websocket.cpp binacpp_websocket.h
+	g++ -I$(libopenssl_include) -I$(jsoncpp_include) -lwebsockets -c binacpp_websocket.cpp  -fPIC   -o $(build_dir)/binacpp_websocket.o
 
 
-$(build_dir)/binacpp_websocket.o: binacpp_websocket.cpp binacpp_websocket.h 
-	g++ -I$(libwebsockets_include) -I$(jsoncpp_include) -c binacpp_websocket.cpp  -fPIC   -o $(build_dir)/binacpp_websocket.o
-
-
-$(build_dir)/binacpp_logger.o: binacpp_logger.cpp binacpp_logger.h 
-	g++ -c binacpp_logger.cpp  -fPIC   -o $(build_dir)/binacpp_logger.o 
+$(build_dir)/binacpp_logger.o: binacpp_logger.cpp binacpp_logger.h
+	g++ -c binacpp_logger.cpp  -fPIC   -o $(build_dir)/binacpp_logger.o
 
 
 
-$(build_dir)/binacpp_utils.o: binacpp_utils.cpp binacpp_utils.h 
-	g++ -c binacpp_utils.cpp -fPIC   -o $(build_dir)/binacpp_utils.o 
+$(build_dir)/binacpp_utils.o: binacpp_utils.cpp binacpp_utils.h
+	g++ -I$(libopenssl_include) -c binacpp_utils.cpp -fPIC   -o $(build_dir)/binacpp_utils.o
 
 
 $(build_dir)/jsoncpp.o: $(jsoncpp_src)/jsoncpp.cpp
-	g++ -I$(jsoncpp_include) -c $(jsoncpp_src)/jsoncpp.cpp -fPIC  -o  $(build_dir)/jsoncpp.o
+	g++ -I$(libopenssl_include) -I$(jsoncpp_include) -fPIC -c $(jsoncpp_src)/jsoncpp.cpp -o  $(build_dir)/jsoncpp.o
 
 clean:
 	rm $(build_dir)/*.o

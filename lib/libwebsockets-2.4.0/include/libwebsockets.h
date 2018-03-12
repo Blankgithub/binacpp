@@ -3406,12 +3406,12 @@ struct lws_token_limits {
 };
 
 /**
- * lws_token_to_string() - returns a textual representation of a hdr token index
+ * lws_token_to_string__() - returns a textual representation of a hdr token index
  *
  * \param token: token index
  */
 LWS_VISIBLE LWS_EXTERN const unsigned char *
-lws_token_to_string(enum lws_token_indexes token);
+lws_token_to_string__(enum lws_token_indexes token);
 
 /**
  * lws_hdr_total_length: report length of all fragments of a header totalled up
